@@ -4212,8 +4212,22 @@ DEFINE_PRIMITIVE("sqrt", sqrt, subr1, (SCM z))
   switch (TYPEOF(z)) {
     case tc_integer:
     case tc_bignum:   return my_sqrt_exact(z);
-    case tc_rational: return div2(my_sqrt_exact(RATIONAL_NUM(z)),
-                                  my_sqrt_exact(RATIONAL_DEN(z)));
+    case tc_rational: SCM sqrt_n = my_sqrt_exact(RATIONAL_NUM(z));
+                      SCM sqrt_d = my_sqrt_exact(RATIONAL_DEN(z));
+                      /* If either is infinite, then we may try converting to inexact
+                         to see if it helps. For example,
+                         (define x (- (expt 9 -10000) 1))
+                         (define q (* x x))
+                         (sqrt (+ 1 q))
+                         This will ne NaN if we just call sqrt on numerator and
+                         denominator, but will return 1.4142135623730951
+                         (the correct value) if we first convert to inexact.
+                         Of course, if the two square roots are finite, we keep them,
+                         for they're exact numbers.                                    */
+                      if (IS_INFP(sqrt_n) || IS_INFP(sqrt_d))
+                        return STk_sqrt(exact2inexact(z));
+                      /* No infinities, just return the division of square roots: */
+                      return div2(sqrt_n, sqrt_d);
     case tc_real:     if (REAL_VAL(z) < 0 && FINITE_REALP(z))
                         return Cmake_complex(MAKE_INT(0),
                                              double2real(sqrt(-REAL_VAL(z))));
