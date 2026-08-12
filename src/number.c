@@ -4233,7 +4233,7 @@ DEFINE_PRIMITIVE("sqrt", sqrt, subr1, (SCM z))
                                              double2real(sqrt(-REAL_VAL(z))));
                       /* The C function sqt will return a NaN for "-inf",
                          because it doesn't handle complexes. We treat this as
-                         aspecial case, returning -inf.0i */
+                         a special case, returning -inf.0i */
                       if (IS_INFP(z) && REAL_VAL(z) < 0.0)
                         return Cmake_complex(MAKE_INT(0),
                                              double2real(plus_inf));
