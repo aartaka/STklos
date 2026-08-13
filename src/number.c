@@ -491,7 +491,7 @@ static void print_complex(SCM n, SCM port, int mode)
         Then the + is not printed, and the -nan.0 is printed.                 */
   if ((!((REALP(imag) && signbit(REAL_VAL(imag))))) &&
       (zerop(imag) ||
-       (positivep(imag) && (!(REALP(imag) && isinf(REAL_VAL(imag)))))))
+       (positivep(imag) && (!IS_INFP(imag)))))
 
     STk_putc('+', port);
   STk_print(imag, port, mode);
@@ -2742,7 +2742,7 @@ DEFINE_PRIMITIVE("abs", abs, subr1, (SCM x))
                            after squaring and summing.
                         */
                         SCM x = add2(mul2(r, r), mul2(i, i));
-                        if (REALP(x) && isinf(REAL_VAL(x))) { /* got inf! */
+                        if (IS_INFP(x)) { /* got inf! */
                             /* Now, if either r or i are real & inf,
                                we're fine, the result should actually
                                be infinite.
@@ -2750,8 +2750,8 @@ DEFINE_PRIMITIVE("abs", abs, subr1, (SCM x))
                                If not, then we have an overflow, so we
                                redo the computation changing doubles
                                to bignums. */
-                            if (! ( (REALP(r) && isinf(REAL_VAL(r))) ||
-                                    (REALP(i) && isinf(REAL_VAL(i))))) {
+                            if (! ( (IS_INFP(r)) ||
+                                    (IS_INFP(i)))) {
                               /* One of them could be a bignum or rational... */
                               if (REALP(r)) {
                                 r = double2integer(REAL_VAL(r));
