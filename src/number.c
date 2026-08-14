@@ -4223,7 +4223,7 @@ DEFINE_PRIMITIVE("sqrt", sqrt, subr1, (SCM z))
                          denominator, but will return 1.4142135623730951
                          (the correct value) if we first convert to inexact.
                          Of course, if the two square roots are finite, we keep them,
-                         for they're exact numbers.                                    */
+                         for they're exact numbers.                                */
                       if (IS_INFP(sqrt_n) || IS_INFP(sqrt_d))
                         return STk_sqrt(exact2inexact(z));
                       /* No infinities, just return the division of square roots: */
@@ -4231,7 +4231,7 @@ DEFINE_PRIMITIVE("sqrt", sqrt, subr1, (SCM z))
     case tc_real:     if (REAL_VAL(z) < 0 && FINITE_REALP(z))
                         return Cmake_complex(MAKE_INT(0),
                                              double2real(sqrt(-REAL_VAL(z))));
-                      /* The C function sqt will return a NaN for "-inf",
+                      /* The C function sqrt will return a NaN for "-inf",
                          because it doesn't handle complexes. We treat this as
                          a special case, returning -inf.0i */
                       if (IS_INFP(z) && REAL_VAL(z) < 0.0)
