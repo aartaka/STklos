@@ -314,7 +314,7 @@
     ;; 271 Random port libraries
     ;; 272 Pretty Printing
     (273 "Extensions to Data (Type-)Checking")
-    ;; 274 Extended List Conversion Procedures
+    (274 "Extended List Conversion Procedures")
     ;; 275 URIs and IRIs
     ;; 276 Type-specific Flonum Libraries
     ; (277 "Cyclic ports" (cyclic-port))

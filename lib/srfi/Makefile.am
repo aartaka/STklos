@@ -23,7 +23,7 @@
 
 #-======================================================================
 
-SUBDIRS=160
+SUBDIRS=160 274
 
 COMP ?= ../../utils/tmpcomp
 STKLOS_BINARY ?= ../../src/stklos
@@ -162,7 +162,8 @@ SRC_STK   = 0.stk   \
             261.stk \
             264.stk \
             267.stk \
-            273.stk
+            273.stk \
+            274.stk
 
 SRC_OSTK =  0.ostk   \
             1.ostk   \
@@ -293,7 +294,8 @@ SRC_OSTK =  0.ostk   \
             261.ostk \
             264.ostk \
             267.ostk \
-            273.ostk
+            273.ostk \
+            274.ostk
 
 #
 # SRFIs written in C and Scheme
@@ -375,7 +377,7 @@ SUFFIXES = .stk .ostk .stk -incl.c .$(SO) .c
 235.ostk: 1.ostk
 260.ostk: 27.$(SO)
 267.ostk: 35.ostk 117.ostk 217.ostk
-
+274.ostk: 274/base.ostk 274/41.ostk 274/134.ostk 274/158.ostk
 
 25-incl.c:    25.stk
 27-incl.c:    27.stk
@@ -433,6 +435,16 @@ SUFFIXES = .stk .ostk .stk -incl.c .$(SO) .c
 
 ../stklos/itrie.$(SO):
 	(cd ../stklos && $(MAKE) itrie.$(SO))
+
+274/base.ostk:
+	(cd 274 && $(MAKE) base.ostk)
+274/41.ostk:
+	(cd 274 && $(MAKE) 41.ostk)
+274/134.ostk:
+	(cd 274 && $(MAKE) 134.ostk)
+274/158.ostk:
+	(cd 274 && $(MAKE) 158.ostk)
+
 #======================================================================
 
 install-data-hook:
@@ -446,14 +458,20 @@ install-sources:
 
 clean:
 	rm -f $(srfi_OBJS) *-incl.c *~
-	(cd 160 && $(MAKE) clean)
+	for i in $(SUBDIRS) ;do \
+	  (cd $$i && $(MAKE) clean); \
+	done
 
 distclean: clean
 	rm -f Makefile
-	(cd 160 && $(MAKE) distclean)
+	for i in $(SUBDIRS) ;do \
+	  (cd $$i && $(MAKE) distclean); \
+	done
 
 uninstall-hook:
-	(cd 160 && $(MAKE) uninstall)
+	for i in $(SUBDIRS) ;do \
+	  (cd $$i && $(MAKE) uninstall); \
+	done
 	(cd $(DESTDIR)$(srfidir) && rm -f $(srfi_sources))
 	rmdir $(DESTDIR)$(srfidir) || true
 
