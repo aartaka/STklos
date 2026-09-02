@@ -27,23 +27,27 @@
 (define-module (srfi 274)
   (import (except (scheme base) list-copy list->string list->vector)
         (srfi 274 base)
-
         (srfi 274 41)
-        (except (srfi 41) list->stream)
-
         (srfi 274 134)
-        (except (srfi 134) list->ideque)
-
         (srfi 274 158)
-        (except (srfi 158) list->generator))
-  
+        (srfi 274 160 base))
+
   (export
    list-copy list->string list->vector  ;; from base.stk
    list->stream                         ;; from 41.stk
    list->ideque                         ;; from 134.stk
    list->generator                      ;; from 158.stk
-  ))
+   list->s8vector                       ;; from 160/base.stk
+   list->u8vector
+   list->s16vector
+   list->u16vector
+   list->s32vector
+   list->u32vector
+   list->s64vector
+   list->u64vector
+   list->f32vector
+   list->f64vector
+   list->c64vector
+   list->c128vector))
+
 (provide "srfi/274")
-
-
-

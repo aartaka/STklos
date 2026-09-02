@@ -23,16 +23,18 @@
 
 #-======================================================================
 
-SUBDIRS=160
 
-COMP ?= ../../../utils/tmpcomp
-STKLOS_BINARY ?= ../../../src/stklos
+COMP ?= ../../../../utils/tmpcomp
+STKLOS_BINARY ?= ../../../../src/stklos
 STKLOS_FLAGS   = --no-init-file --case-sensitive
 SO = @SH_SUFFIX@
 
-SRC_STK = base.stk internal.stk 41.stk 134.stk 158.stk
+SRC_STK = base.stk c128.stk c64.stk f32.stk f64.stk s16.stk \
+          s32.stk s64.stk s8.stk u16.stk u32.stk u64.stk u8.stk
 
-SRC_OSTK = base.ostk internal.ostk 41.ostk 134.ostk 158.ostk
+SRC_OSTK = base.ostk c128.ostk c64.ostk f32.ostk f64.ostk s16.ostk \
+          s32.ostk s64.ostk s8.ostk u16.ostk u32.ostk u64.ostk u8.ostk
+
 
 srfi_OBJS = $(SRC_OSTK)
 
@@ -43,8 +45,8 @@ SOURCES= $(SRC_C) $(SRC_STK) $(SRC_C_STK)
 
 
 #======================================================================
-srfidir       = @SCMDIR@/srfi/274
-srfilibdir    = @EXECDIR@/srfi/274
+srfidir       = @SCMDIR@/srfi/274/160
+srfilibdir    = @EXECDIR@/srfi/274/160
 srfi_DATA     = $(SRC_OSTK)
 srfilib_DATA  = $(SRC_SHOBJ)
 srfi_sources  = $(SRC_STK)
@@ -58,18 +60,47 @@ SUFFIXES = .stk .ostk .stk -incl.c .$(SO) .c
 
 #======================================================================
 # Dependencies
-base.stk: internal.ostk
-41.stk: internal.ostk ../41.ostk
-134.ostk: internal.ostk ../134.ostk
-274.ostk: internal.ostk ../274.ostk
+base.stk: ../internal.ostk ../../160.ostk
+c64.stk:  ../internal.ostk  ../../160/c64.ostk
+c128.stk: ../internal.ostk ../../160/c128.ostk
+c64.stk:  ../internal.ostk ../../160/c64.ostk
+f32.stk:  ../internal.ostk ../../160/f32.ostk
+f64.stk:  ../internal.ostk ../../160/f64.ostk
+s16.stk:  ../internal.ostk ../../160/s16.ostk
+s32.stk:  ../internal.ostk ../../160/s32.ostk
+s64.stk:  ../internal.ostk ../../160/s64.ostk
+s8.stk:   ../internal.ostk ../../160/s8.ostk
+u16.stk:  ../internal.ostk ../../160/u16.ostk
+u32.stk:  ../internal.ostk ../../160/u32.ostk
+u64.stk:  ../internal.ostk ../../160/u64.ostk
+u8.stk:   ../internal.ostk ../../160/u8.ostk
 
-
-../41.ostk:
-	(cd ..; $(MAKE) 41.ostk)
-../134.ostk:
-	(cd ..; $(MAKE) 134.ostk)
-../158.ostk:
-	(cd ..; $(MAKE) 158.ostk)
+../internal.ostk:
+	(cd ..; $(MAKE) internal.ostk)
+../../160/c64.ostk:
+	(cd ../../160; $(MAKE) c64.ostk)
+../../160/c128.ostk:
+	(cd ../../160; $(MAKE) c128.ostk)
+../../160/f32.ostk:
+	(cd ../../160; $(MAKE) f32.ostk)
+../../160/f64.ostk:
+	(cd ../../160; $(MAKE) f64.ostk)
+../../160/s16.ostk:
+	(cd ../../160; $(MAKE) s16.ostk)
+../../160/s32.ostk:
+	(cd ../../160; $(MAKE) s32.ostk)
+../../160/s64.ostk:
+	(cd ../../160; $(MAKE) s64.ostk)
+../../160/s8.ostk:
+	(cd ../../160; $(MAKE) s8.ostk)
+../../160/u16.ostk:
+	(cd ../../160; $(MAKE) u16.ostk)
+../../160/u32.ostk:
+	(cd ../../160; $(MAKE) u32.ostk)
+../../160/u64.ostk:
+	(cd ../../160; $(MAKE) u64.ostk)
+../../160/u8.ostk:
+	(cd ../../160; $(MAKE) u8.ostk)
 
 
 #======================================================================
@@ -80,11 +111,10 @@ install-sources:
 
 clean:
 	rm -f $(srfi_OBJS) *-incl.c *~
-	(cd 160; $(MAKE) clean)
 
 distclean: clean
 	rm -f Makefile
-	(cd 160; $(MAKE) distclean)
+
 uninstall-hook:
 	(cd $(PREFIX)$(srfidir) && rm -f $(srfi_sources) ) || true
 	rmdir $(srfidir) || true

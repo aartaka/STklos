@@ -773,6 +773,7 @@ AC_CONFIG_FILES([Makefile src/Makefile src/extraconf.h doc/Makefile
 
           lib/srfi/160/Makefile
           lib/srfi/274/Makefile
+          lib/srfi/274/160/Makefile
 
           extensions/Makefile
 
