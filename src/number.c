@@ -4393,6 +4393,55 @@ static SCM my_expt(SCM x, SCM y)
       return fixnum_exponent_expt(x, INT_VAL(y));
 
     case tc_rational:
+      if (INTP(x)) { /* Treat special cases where x = 0, 1 or -1 */
+        if (INT_VAL(x) == 0) return MAKE_INT(0);        //  0
+        if (INT_VAL(x) == 1) return MAKE_INT(1);        // +1
+      }
+      if (INTP(x) || BIGNUMP(x)) {
+        /* y = m/n */
+        SCM m = RATIONAL_NUM(y);
+        SCM n = RATIONAL_DEN(y);
+
+        if (m != MAKE_INT(1)) {
+          return my_expt(my_expt(x, div2(MAKE_INT(1), n)), m);
+        } else {
+          /* Take n-th root first, then m-th power */
+          if (BIGNUMP(n))
+            /* The GMP does not extract n-th root when n is a bignum
+               (just as it also doesnt compute a^b when b is a bignum), so we can
+               returninexact zero). */
+            return double2real(0.0);
+
+          mpz_t *x_val;
+          if (BIGNUMP(x))
+            x_val = &BIGNUM_VAL(x);
+          else
+            /* We need 'labs' so the GMP will get the expected ulong */
+            mpz_init_set_si(*x_val, labs(INT_VAL(x)));
+
+          mpz_t res;
+          mpz_init(res);
+          /* mpz_root, GMP manual: "Return non-zero if the computation
+             was exact, i.e., if op is rop to the nth power" */
+
+          int neg = (mpz_sgn(*x_val) < 0)? +1 : 0;
+
+          if (neg) mpz_neg ( *x_val,  *x_val);
+          if (mpz_root(res, *x_val, labs(INT_VAL(n)))) {
+            /* If we're here then res is the exact root.
+               Of course, if it was negative we multiply by complex_i: */
+            if (neg)
+              return mul2(bignum2number(res), complex_i);
+            else
+              return bignum2number(res);
+          }
+          if (neg) mpz_neg ( *x_val,  *x_val);
+
+          /* Not exact! */
+          return my_expt(x, (exact2inexact(y)));
+        }
+      }
+      /* fallthrough */
     case tc_real:
       if (zerop(y)) /* Treat  special case where y = 0.0 (or -0.0) */
         return double2real(1.0);
@@ -4461,10 +4510,10 @@ static SCM my_expt(SCM x, SCM y)
 
 DEFINE_PRIMITIVE("expt", expt, subr2, (SCM x, SCM y))
 {
-  if (!COMPLEXP(y) && negativep(y)) {
-    return div2(MAKE_INT(1),
-                my_expt(x, sub2(MAKE_INT(0), y)));
-  }
+  if (x == MAKE_INT(1) && REALP(y) && EXACTP(y))
+    return MAKE_INT(1);
+  if (!COMPLEXP(y) && negativep(y))
+    return div2(MAKE_INT(1), my_expt(x, sub2(MAKE_INT(0), y)));
   return my_expt(x, y);
 }
 

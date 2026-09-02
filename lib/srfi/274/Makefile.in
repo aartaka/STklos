@@ -14,9 +14,10 @@
 
 @SET_MAKE@
 
-# Makefile for the R7RS SRFI standard libraries
+# Makefile for the SRFI 160
 #
-# Copyright © 2021-2026 Erick Gallesio <eg@stklos.net>
+# Copyright © 2022 Jeronimo Pellegrini <j_p@aleph0.info>
+# Based on the SRFI Makefiles by Erick Gallesio.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,8 +34,8 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
 # USA.
 #
-#           Author: Erick Gallesio [eg@unice.fr]
-#    Creation date:  8-Oct-2021 11:54 (eg)
+#           Author: Jeronimo Pellegrini [j_p@aleph0.info]
+#    Creation date: 20-Jun-2022 09:24 (jpellegrini)
 
 #-======================================================================
 
@@ -114,7 +115,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-subdir = lib/srfi
+subdir = lib/srfi/274
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -394,292 +395,19 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-SUBDIRS = 160 274
+SUBDIRS = 160
 STKLOS_FLAGS = --no-init-file --case-sensitive
 SO = @SH_SUFFIX@
-
-#
-# SRFI written in Scheme
-#
-SRC_STK = 0.stk   \
-            1.stk   \
-            2.stk   \
-            4.stk   \
-            5.stk   \
-            6.stk   \
-            7.stk   \
-            8.stk   \
-            9.stk   \
-            10.stk  \
-            11.stk  \
-            13.stk  \
-            14.stk  \
-            15.stk  \
-            16.stk  \
-            17.stk  \
-            18.stk  \
-            19.stk  \
-            22.stk  \
-            23.stk  \
-            26.stk  \
-            28.stk  \
-            29.stk  \
-            30.stk  \
-            31.stk  \
-            34.stk  \
-            35.stk  \
-            36.stk  \
-            37.stk  \
-            38.stk  \
-            39.stk  \
-            41.stk  \
-            43.stk  \
-            45.stk  \
-            46.stk  \
-            48.stk  \
-            51.stk  \
-            54.stk  \
-            55.stk  \
-            59.stk  \
-            60.stk  \
-            61.stk  \
-            62.stk  \
-            64.stk  \
-            66.stk  \
-            69.stk  \
-            70.stk  \
-            74.stk  \
-            87.stk  \
-            88.stk  \
-            89.stk  \
-            94.stk  \
-            95.stk  \
-            96.stk  \
-            98.stk  \
-            100.stk \
-            101.stk \
-            111.stk \
-            112.stk \
-            113.stk \
-            115.stk \
-            116.stk \
-            117.stk \
-            118.stk \
-            125.stk \
-            127.stk \
-            128.stk \
-            129.stk \
-            130.stk \
-            132.stk \
-            133.stk \
-            134.stk \
-            135.stk \
-            137.stk \
-            138.stk \
-            141.stk \
-            143.stk \
-            144.stk \
-            145.stk \
-            151.stk \
-            152.stk \
-            154.stk \
-            156.stk \
-            158.stk \
-            160.stk \
-            161.stk \
-            162.stk \
-            169.stk \
-            171.stk \
-            173.stk \
-            174.stk \
-            176.stk \
-            180.stk \
-            185.stk \
-            189.stk \
-            190.stk \
-            192.stk \
-            193.stk \
-            195.stk \
-            196.stk \
-            207.stk \
-            208.stk \
-            214.stk \
-            215.stk \
-            216.stk \
-            217.stk \
-            219.stk \
-            221.stk \
-            222.stk \
-            223.stk \
-            224.stk \
-            225.stk \
-            227.stk \
-            228.stk \
-            229.stk \
-            230.stk \
-            232.stk \
-            233.stk \
-            234.stk \
-            235.stk \
-            236.stk \
-            239.stk \
-            244.stk \
-            253.stk \
-            258.stk \
-            260.stk \
-            261.stk \
-            264.stk \
-            267.stk \
-            273.stk \
-            274.stk
-
-SRC_OSTK = 0.ostk   \
-            1.ostk   \
-            2.ostk   \
-            4.ostk   \
-            5.ostk   \
-            6.ostk   \
-            7.ostk   \
-            8.ostk   \
-            9.ostk   \
-            10.ostk  \
-            11.ostk  \
-            13.ostk  \
-            14.ostk  \
-            15.ostk  \
-            16.ostk  \
-            17.ostk  \
-            18.ostk  \
-            19.ostk  \
-            22.ostk  \
-            23.ostk  \
-            26.ostk  \
-            28.ostk  \
-            29.ostk  \
-            30.ostk  \
-            31.ostk  \
-            34.ostk  \
-            35.ostk  \
-            36.ostk  \
-            37.ostk  \
-            38.ostk  \
-            39.ostk  \
-            41.ostk  \
-            43.ostk  \
-            45.ostk  \
-            46.ostk  \
-            48.ostk  \
-            51.ostk  \
-            54.ostk  \
-            55.ostk  \
-            59.ostk  \
-            60.ostk  \
-            61.ostk  \
-            62.ostk  \
-            64.ostk  \
-            66.ostk  \
-            69.ostk  \
-            70.ostk  \
-            74.ostk  \
-            87.ostk  \
-            88.ostk  \
-            89.ostk  \
-            94.ostk  \
-            95.ostk  \
-            96.ostk  \
-            98.ostk  \
-            100.ostk \
-            101.ostk \
-            111.ostk \
-            112.ostk \
-            113.ostk \
-            115.ostk \
-            116.ostk \
-            117.ostk \
-            118.ostk \
-            125.ostk \
-            127.ostk \
-            128.ostk \
-            129.ostk \
-            130.ostk \
-            132.ostk \
-            133.ostk \
-            134.ostk \
-            135.ostk \
-            137.ostk \
-            138.ostk \
-            141.ostk \
-            144.ostk \
-            145.ostk \
-            143.ostk \
-            151.ostk \
-            152.ostk \
-            154.ostk \
-            156.ostk \
-            158.ostk \
-            160.ostk \
-            161.ostk \
-            162.ostk \
-            169.ostk \
-            171.ostk \
-            173.ostk \
-            174.ostk \
-            176.ostk \
-            180.ostk \
-            185.ostk \
-            189.ostk \
-            190.ostk \
-            192.ostk \
-            193.ostk \
-            195.ostk \
-            196.ostk \
-            207.ostk \
-            208.ostk \
-            214.ostk \
-            215.ostk \
-            216.ostk \
-            217.ostk \
-            219.ostk \
-            221.ostk \
-            222.ostk \
-            223.ostk \
-            224.ostk \
-            225.ostk \
-            227.ostk \
-            228.ostk \
-            229.ostk \
-            230.ostk \
-            232.ostk \
-            233.ostk \
-            234.ostk \
-            235.ostk \
-            236.ostk \
-            239.ostk \
-            244.ostk \
-            253.ostk \
-            258.ostk \
-            260.ostk \
-            261.ostk \
-            264.ostk \
-            267.ostk \
-            273.ostk \
-            274.ostk
-
-
-#
-# SRFIs written in C and Scheme
-#
-SRC_C = 25.c     27.c     170.c      175.c      178.c     238.c
-SRC_C_STK = 25.stk   27.stk   170.stk    175.stk    178.stk   238.stk
-SRC_SHOBJ = 25.$(SO) 27.$(SO) 170.$(SO)  175.$(SO)  178.$(SO) 238.$(SO)
-srfi_OBJS = $(SRC_OSTK) $(SRC_SHOBJ)
-DOCDB = ../DOCDB
-BASEDIR = ../..
+SRC_STK = base.stk internal.stk 41.stk 134.stk 158.stk
+SRC_OSTK = base.ostk internal.ostk 41.ostk 134.ostk 158.ostk
+srfi_OBJS = $(SRC_OSTK)
+DOCDB = ../../DOCDB
+BASEDIR = ../../..
 SOURCES = $(SRC_C) $(SRC_STK) $(SRC_C_STK)
 
 #======================================================================
-srfidir = @SCMDIR@/srfi
-srfilibdir = @EXECDIR@/srfi
+srfidir = @SCMDIR@/srfi/274
+srfilibdir = @EXECDIR@/srfi/274
 srfi_DATA = $(SRC_OSTK)
 srfilib_DATA = $(SRC_SHOBJ)
 srfi_sources = $(SRC_STK)
@@ -698,9 +426,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu lib/srfi/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu lib/srfi/274/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu lib/srfi/Makefile
+	  $(AUTOMAKE) --gnu lib/srfi/274/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -973,8 +701,7 @@ info: info-recursive
 info-am:
 
 install-data-am: install-srfiDATA install-srfilibDATA
-	@$(NORMAL_INSTALL)
-	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
+
 install-dvi: install-dvi-recursive
 
 install-dvi-am:
@@ -1020,186 +747,63 @@ ps-am:
 uninstall-am: uninstall-srfiDATA uninstall-srfilibDATA
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) uninstall-hook
-.MAKE: $(am__recursive_targets) install-am install-data-am \
-	install-strip uninstall-am
+.MAKE: $(am__recursive_targets) install-am install-strip uninstall-am
 
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am check \
 	check-am clean clean-generic cscopelist-am ctags ctags-am \
 	distclean distclean-generic distclean-tags distdir dvi dvi-am \
 	html html-am info info-am install install-am install-data \
-	install-data-am install-data-hook install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-srfiDATA \
-	install-srfilibDATA install-strip installcheck installcheck-am \
-	installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
-	pdf-am ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-hook uninstall-srfiDATA uninstall-srfilibDATA
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-srfiDATA install-srfilibDATA \
+	install-strip installcheck installcheck-am installdirs \
+	installdirs-am maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-generic pdf pdf-am ps ps-am tags \
+	tags-am uninstall uninstall-am uninstall-hook \
+	uninstall-srfiDATA uninstall-srfilibDATA
 
 .PRECIOUS: Makefile
 
 
-COMP ?= ../../utils/tmpcomp
-STKLOS_BINARY ?= ../../src/stklos
+COMP ?= ../../../utils/tmpcomp
+STKLOS_BINARY ?= ../../../src/stklos
+
+#======================================================================
 
 .stk.ostk:
 	$(COMP) -o $*.ostk $*.stk
 
-.stk-incl.c:
-	$(COMP) -C -o $*-incl.c $*.stk
-
-.c.$(SO) :
-	@CC@ @CFLAGS@ @CPPFLAGS@ @STKCFLAGS@ @SH_COMP_FLAGS@ \
-		-I../../src @GCINC@ @GMPINC@ -c -o $*.o $*.c
-	@SH_LOADER@ @LDFLAGS@ @SH_LOAD_FLAGS@ -o $*.$(SO) $*.o @DLLIBS@
-	@rm -f $*.o
-
 #======================================================================
 # Dependencies
-1.ostk: ../scheme/list.$(SO)
-13.ostk: 14.ostk
-14.ostk: ../scheme/charset.ostk
-37.ostk: 13.ostk
-41.ostk: ../streams/derived.ostk
-51.ostk: 1.ostk
-64.ostk: 35.ostk
-74.ostk: 4.ostk 26.ostk 60.ostk 66.ostk
-94.ostk: 60.ostk
-95.ostk:  ../scheme/sort.$(SO)
-101.ostk: ../scheme/rlist.$(SO)
-113.ostk: ../scheme/set.ostk
-115.ostk: ../scheme/regex.ostk
-116.ostk: ../scheme/ilist.$(SO)
-117.ostk: 1.ostk ../scheme/list-queue.ostk
-125.ostk: 128.ostk ../scheme/hash-table.ostk
-127.ostk: ../scheme/lseq.ostk
-128.ostk: ../scheme/comparator.ostk
-130.ostk: 13.ostk
-132.ostk: ../scheme/sort.$(SO)
-133.ostk: ../scheme/vector.$(SO)
-134.ostk: ../scheme/ideque.ostk
-135.ostk: ../scheme/text.ostk
-141.ostk: ../scheme/division.ostk
-144.ostk: ../scheme/flonum.$(SO)
-151.ostk: ../scheme/bitwise.ostk
-152.ostk: 13.ostk
-158.ostk: ../scheme/generator.ostk
-160.ostk: ../scheme/vector/@.ostk
-171.ostk: 1.ostk 69.ostk
-189.ostk: 1.ostk
-190.ostk: 158.ostk
-195.ostk: 35.ostk
-196.ostk: 1.ostk
-207.ostk: 1.ostk 13.ostk 151.ostk 158.ostk
-216.ostk: 27.$(SO)
-217.ostk: ../stklos/itrie.$(SO)
-221.ostk: 41.ostk 158.ostk
-224.ostk: ../scheme/comparator.ostk
-234.ostk: 1.ostk 11.ostk 26.ostk
-235.ostk: 1.ostk
-260.ostk: 27.$(SO)
-267.ostk: 35.ostk 117.ostk 217.ostk
-274.ostk: 274/base.ostk 274/41.ostk 274/134.ostk 274/158.ostk
+base.stk: internal.ostk
+41.stk: internal.ostk ../41.ostk
+134.ostk: internal.ostk ../134.ostk
+274.ostk: internal.ostk ../274.ostk
 
-25-incl.c:    25.stk
-27-incl.c:    27.stk
-101-incl.c:  101.stk
-116-incl.c:  116.stk
-170-incl.c:  170.stk
-175-incl.c:  175.stk
-178-incl.c:  178.stk
-238-incl.c:  238.stk
-
-25.$(SO):  25-incl.c  25.c 25.stk
-27.$(SO):  27-incl.c  27.c 27.stk
-101.$(SO): 101-incl.c 101.c 101.stk
-116.$(SO): 128.ostk 116-incl.c 116.c 116.stk
-170.$(SO): 170-incl.c 170.c 170.stk
-175.$(SO): 175-incl.c 175.c 175.stk
-178.$(SO): 178-incl.c 178.c 178.stk
-238.$(SO): 238-incl.c 238.c 238.stk
-
-../streams/derived.ostk:
-	(cd ../streams && $(MAKE) derived.ostk)
-../scheme/list.$(SO):
-	(cd ../scheme && $(MAKE) list.$(SO))
-../scheme/charset.ostk:
-	(cd ../scheme && $(MAKE) charset.ostk)
-../scheme/set.ostk:
-	(cd ../scheme && $(MAKE) set.ostk)
-../scheme/ilist.$(SO):
-	(cd ../scheme && $(MAKE) ilist.$(SO))
-../scheme/list-queue.ostk:
-	(cd ../scheme && $(MAKE) list-queue.ostk)
-../scheme/hash-table.ostk:
-	(cd ../scheme && $(MAKE) hash-table.ostk)
-../scheme/lseq.ostk:
-	(cd ../scheme && $(MAKE) lseq.ostk)
-../scheme/sort.$(SO):
-	(cd ../scheme && $(MAKE) sort.$(SO))
-../scheme/rlist.$(SO):
-	(cd ../scheme && $(MAKE) rlist.$(SO))
-../scheme/generator.ostk:
-	(cd ../scheme && $(MAKE) generator.ostk)
-../scheme/ideque.ostk:
-	(cd ../scheme && $(MAKE) ideque.ostk)
-../scheme/division.ostk:
-	(cd ../scheme && $(MAKE) division.ostk)
-../scheme/flonum.$(SO):
-	(cd ../scheme && $(MAKE) division.$(SO))
-../scheme/bitwise.$(SO):
-	(cd ../scheme && $(MAKE) bitwise.ostk)
-../scheme/vector/@.ostk:
-	(cd ../scheme/vector && $(MAKE) @.ostk)
-../scheme/regex.ostk:
-	(cd ../scheme && $(MAKE) regexp.ostk)
-
-../stklos/itrie.$(SO):
-	(cd ../stklos && $(MAKE) itrie.$(SO))
-
-274/base.ostk:
-	(cd 274 && $(MAKE) base.ostk)
-274/41.ostk:
-	(cd 274 && $(MAKE) 41.ostk)
-274/134.ostk:
-	(cd 274 && $(MAKE) 134.ostk)
-274/158.ostk:
-	(cd 274 && $(MAKE) 158.ostk)
+../41.ostk:
+	(cd ..; $(MAKE) 41.ostk)
+../134.ostk:
+	(cd ..; $(MAKE) 134.ostk)
+../158.ostk:
+	(cd ..; $(MAKE) 158.ostk)
 
 #======================================================================
 
-install-data-hook:
-	(cd 160 && $(MAKE) install)
-
 install-sources:
-	@for i in $(SUBDIRS) ;do \
-	   (cd $$i && $(MAKE) install-sources)\
-	done
-	install $(srfi_sources) $(DESTDIR)$(srfidir)
+	mkdir -p $(DESTDIR)$(srfidir)
+	cp $(srfi_sources) $(DESTDIR)$(srfidir)
 
 clean:
 	rm -f $(srfi_OBJS) *-incl.c *~
-	for i in $(SUBDIRS) ;do \
-	  (cd $$i && $(MAKE) clean); \
-	done
+	(cd 160; $(MAKE) clean)
 
 distclean: clean
 	rm -f Makefile
-	for i in $(SUBDIRS) ;do \
-	  (cd $$i && $(MAKE) distclean); \
-	done
-
+	(cd 160; $(MAKE) distclean)
 uninstall-hook:
-	for i in $(SUBDIRS) ;do \
-	  (cd $$i && $(MAKE) uninstall); \
-	done
-	(cd $(DESTDIR)$(srfidir) && rm -f $(srfi_sources))
-	rmdir $(DESTDIR)$(srfidir) || true
-
-doc:
-	$(STKLOS_BINARY) $(STKLOS_FLAGS) -f ../../doc/extract-doc \
-			$(SOURCES) >> $(DOCDB)
+	(cd $(PREFIX)$(srfidir) && rm -f $(srfi_sources) ) || true
+	rmdir $(srfidir) || true
 
 # Local Variables:
 # tab-width: 8
