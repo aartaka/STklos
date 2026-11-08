@@ -337,11 +337,15 @@
     ((_ name (body ...) (args-so-far ...) arg . args)
      (%define-checked name (body ...) (args-so-far ... arg) . args))
     ((_ name (body ...) (args-so-far ...))
-     (define-method name (args-so-far ...)
-       body ...))
+     (begin
+       (define-generic name)
+       (define-method name (args-so-far ...)
+         body ...)))
     ((_ name (body ...) (args-so-far ...) . rest)
-     (define-method name (args-so-far ... . rest)
-       body ...))))
+     (begin
+       (define-generic name)
+       (define-method name (args-so-far ... . rest)
+         body ...)))))
 
 (define-syntax define-checked
   (syntax-rules ()
